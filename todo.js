@@ -26,7 +26,8 @@ function todoList() {
         const displayDate = compareDate(todo.dueDate) === 0 ? "" : todo.dueDate;
         return `${checkbox} ${todo.title} ${displayDate}`;
       })
-      .join("\n");
+      .join("\n")
+      .trim();
 
   return {
     all,
