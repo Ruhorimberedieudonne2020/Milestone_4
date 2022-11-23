@@ -1,59 +1,59 @@
-/* eslint-disable indent */
-/* eslint-disable eol-last */
-/* eslint-disable semi */
-/* eslint-disable comma-dangle */
-/* eslint-disable quotes */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
-const todoList = require("../todo");
-// eslint-disable-next-line no-unused-vars
-const {
-  all,
-  add,
-  markAsComplete,
-  // eslint-disable-next-line no-unused-vars
-  overdue,
-  // eslint-disable-next-line no-unused-vars
-  dueToday,
-  // eslint-disable-next-line no-unused-vars
-  dueLater,
-  toDisplayableList,
-} = todoList();
-
-describe("testing our todo:", () => {
+let todoList = require("../todo");
+const { all, markAsComplete, add, overdue, dueToday, dueLater } = todoList();
+describe("Todo test cases", () => {
   beforeAll(() => {
-    add({
-      title: "Test todo",
-      completed: false,
-      dueDate: new Date().toLocaleDateString("en-CA"),
-    });
+    const today = new Date();
+    const oneDay = 60 * 60 * 24 * 1000;
+    [
+      {
+        title: "Complete assignment",
+        completed: false,
+        dueDate: new Date(today.getTime() - 1 * oneDay).toLocaleDateString(
+          "en-CA"
+        ),
+      },
+      {
+        title: "Resubmission of level 4",
+        completed: false,
+        dueDate: new Date().toLocaleDateString("en-CA"),
+      },
+      {
+        title: "Complete project",
+        completed: false,
+        dueDate: new Date(today.getTime() + 1 * oneDay).toLocaleDateString(
+          "en-CA"
+        ),
+      },
+    ].forEach(add);
   });
-  // test 1
-  test("Should add new todo ", () => {
-    const todoItemCount = all.length;
+  test("Add new todo", () => {
+    expect(all.length).toEqual(3);
+
     add({
-      title: "Test todo",
+      title: "Take the test",
       completed: false,
       dueDate: new Date().toLocaleDateString("en-CA"),
     });
 
-    expect(all.length).toBe(todoItemCount + 1);
+    expect(all.length).toEqual(4);
   });
-  // test 2
-  test("Should mark todo  as complete", () => {
-    expect(all[0].completed).toBe(false);
+
+  test("Todo mark as complete", () => {
+    expect(all[0].completed).toEqual(false);
     markAsComplete(0);
-    expect(all[0].completed).toBe(true);
+    expect(all[0].completed).toEqual(true);
   });
-  // test 3
-  test("retrieving today items", () => {
-    expect(all.dueDate).toBe(all.dueToday);
+
+  test("checks retrieval of overdue items.", () => {
+    expect(overdue().length).toEqual(1);
   });
-  // test 4
-  test("retrieving overdue items.", () => {
-    expect(all.overdue).toBe(all.dueDate);
+
+  test("checks retrieval of due today items", () => {
+    expect(dueToday().length).toEqual(2);
   });
-  test("retrieving due later items", () => {
-    expect(all.dueLater).toBe(all.dueDate);
+
+  test("checks retrieval of due later items", () => {
+    expect(dueLater().length).toEqual(1);
   });
 });
+    
