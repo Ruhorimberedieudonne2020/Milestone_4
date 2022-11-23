@@ -3,12 +3,12 @@ const { all, markAsComplete, add, overdue, dueToday, dueLater } = todoList();
 describe("Todo test cases", () => {
   beforeAll(() => {
     const today = new Date();
-    const oneDay = 60 * 60 * 24 * 1000;
+    const SecsDay = 60 * 60 * 24 * 1000;
     [
       {
         title: "Complete assignment",
         completed: false,
-        dueDate: new Date(today.getTime() - 1 * oneDay).toLocaleDateString(
+        dueDate: new Date(today.getTime() - 1 * SecsDay).toLocaleDateString(
           "en-CA"
         ),
       },
@@ -20,7 +20,7 @@ describe("Todo test cases", () => {
       {
         title: "Complete project",
         completed: false,
-        dueDate: new Date(today.getTime() + 1 * oneDay).toLocaleDateString(
+        dueDate: new Date(today.getTime() + 1 * SecsDay).toLocaleDateString(
           "en-CA"
         ),
       },
